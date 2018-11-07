@@ -131,3 +131,4 @@ iOSInjectionProject/
 # End of https://www.gitignore.io/api/c++,xcode
 >>>>>>> 9e6a9bad2880d93d3ad3e1e045ff39409244480f
 Lab 7/Lab 7.xcodeproj/project.xcworkspace/xcuserdata/vasilisodysseos.xcuserdatad/UserInterfaceState.xcuserstate
+*.xcuserstate

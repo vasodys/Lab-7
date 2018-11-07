@@ -46,7 +46,7 @@ namespace coen79_lab7
 		if (company_array == rhs.company_array){
 			return *this;
 		}
-		delete company_array;
+		delete[] company_array;
 		company_array = new company[rhs.aloc_slots];
 		std::copy(rhs.company_array, rhs.company_array + rhs.used_slots, company_array);
 		used_slots = rhs.used_slots;
@@ -56,7 +56,7 @@ namespace coen79_lab7
     
     
     database::~database() {
-		delete company_array;
+		delete[] company_array;
 		aloc_slots = 0;
 		used_slots = 0;
     }
@@ -68,12 +68,12 @@ namespace coen79_lab7
         if (new_capacity == aloc_slots)
             return; // The allocated memory is already the right size.
         
-        if (new_capacity < used_slots)
+		if (new_capacity < used_slots){
             new_capacity = used_slots; // Canít allocate less than we are using.
-        
+		}
 		company* tmp = new company[new_capacity];
+		delete[] company_array;
 		std::copy(company_array, company_array + used_slots, tmp);
-		delete company_array;
 		company_array = tmp;
 		return;
     }

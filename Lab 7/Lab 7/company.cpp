@@ -24,20 +24,26 @@ namespace coen79_lab7
     company::company(const std::string& company_name) {
         assert(company_name.length() > 0);
 
-        // COMPLETE THE IMPLEMENTATION...
+		this->company_name = company_name;
+		this->head_ptr = NULL;
+		this->tail_ptr = NULL;
     }
     
     company::company(const company &src) {
         Debug("Company copy constructor..." << std::endl);
-
-        // COMPLETE THE IMPLEMENTATION...
+		*this = src;
     }
 
     
     company& company::operator= (const company &src) {
         Debug("Company assignemnt operator..." << std::endl);
-
-        // COMPLETE THE IMPLEMENTATION...
+		if(this->company_name == src.get_name()){
+			return *this;
+		}
+		
+		this->company_name = src.get_name();
+		list_copy(src.get_head(), head_ptr, tail_ptr);
+		return *this;
     }
     
     
@@ -80,11 +86,12 @@ namespace coen79_lab7
         }
         
         if (head_ptr == NULL) {
-            // COMPLETE THE IMPLEMENTATION...
+			list_init(head_ptr, tail_ptr, product_name, price);
         }
         else {
-            // COMPLETE THE IMPLEMENTATION...
+			list_tail_insert(tail_ptr, product_name, price);
         }
+		
         
         return true;
     }
@@ -92,8 +99,21 @@ namespace coen79_lab7
     
     bool company::erase(const std::string& product_name) {
         assert(product_name.length() > 0);
-
-        // COMPLETE THE IMPLEMENTATION...
+		
+		node* tmp = head_ptr;
+		node* tmp2 = NULL;
+	
+		while(tmp != NULL && tmp->getName() != product_name){
+			tmp2 = tmp;
+			tmp = tmp->getLink();
+		}
+		if(tmp == NULL){
+			return false;
+		}else{
+			tmp2->setLink(tmp->getLink());
+			delete tmp;
+			return true;
+		}
     }
     
     

@@ -37,19 +37,28 @@ namespace coen79_lab7
     database::database(const database &src) {
         Debug("Copy constructor..." << std::endl);
 
-        // COMPLETE THE IMPLEMENTATION...
-    }
+		*this = src;
+	};
     
     
     database& database::operator= (const database &rhs) {
         Debug("Assignment operator..." << std::endl);
-
-        // COMPLETE THE IMPLEMENTATION...
+		if (company_array == rhs.company_array){
+			return *this;
+		}
+		delete company_array;
+		company_array = new company[rhs.aloc_slots];
+		std::copy(rhs.company_array, rhs.company_array + rhs.used_slots, company_array);
+		used_slots = rhs.used_slots;
+		aloc_slots = rhs.aloc_slots;
+		return *this;
     }
     
     
     database::~database() {
-        // COMPLETE THE IMPLEMENTATION...
+		delete company_array;
+		aloc_slots = 0;
+		used_slots = 0;
     }
     
     
@@ -62,7 +71,11 @@ namespace coen79_lab7
         if (new_capacity < used_slots)
             new_capacity = used_slots; // Canít allocate less than we are using.
         
-        // COMPLETE THE IMPLEMENTATION...
+		company* tmp = new company[new_capacity];
+		std::copy(company_array, company_array + used_slots, tmp);
+		delete company_array;
+		company_array = tmp;
+		return;
     }
     
     
@@ -80,6 +93,16 @@ namespace coen79_lab7
         }
 
         // COMPLETE THE IMPLEMENTATION...
+		company *tmp = new company(entry);
+		
+		if(used_slots < aloc_slots){
+			company_array[used_slots] = *tmp;
+		}else{
+			reserve(aloc_slots+1);
+			company_array[used_slots] = *tmp;
+		}
+		used_slots++;
+		return true;
     }
     
     
@@ -89,7 +112,17 @@ namespace coen79_lab7
         assert(company.length() > 0 && product_name.length() > 0);
 
         // COMPLETE THE IMPLEMENTATION...
-        
+		
+		size_type company_index = search_company(company);
+		if(company_index == COMPANY_NOT_FOUND){
+			return false;
+		}else{
+			if(company_array[company_index].insert(product_name, price)){
+				return true;
+			}else{
+				return false;
+			}
+		}
     }
     
     
@@ -97,7 +130,15 @@ namespace coen79_lab7
         
         size_type company_index = search_company(company);
         
-        // COMPLETE THE IMPLEMENTATION...
+		if(company_index == COMPANY_NOT_FOUND){
+			return false;
+		}else{
+			for(size_type i = company_index; i < used_slots; ++i){
+				company_array[i] = company_array[i+1];
+			}
+			used_slots--;
+			return true;
+		}
     }
     
     
@@ -105,7 +146,17 @@ namespace coen79_lab7
         
         assert(cName.length() > 0 && pName.length() > 0);
 
-        // COMPLETE THE IMPLEMENTATION...
+		size_type company_index = search_company(cName);
+		
+		if(company_index == COMPANY_NOT_FOUND){
+			return false;
+		}else{
+			if(company_array[company_index].erase(pName)){
+				return true;
+			}else{
+				return false;
+			}
+		}
     }
     
     
@@ -114,6 +165,12 @@ namespace coen79_lab7
         assert(company.length() > 0);
 
         // COMPLETE THE IMPLEMENTATION...
+		for(size_type i = 0; i < used_slots; ++i){
+			if(company_array[i].get_name() == company){
+				return i;
+			}
+		}
+		return COMPANY_NOT_FOUND;
     }
     
     

@@ -72,9 +72,10 @@ namespace coen79_lab7
             new_capacity = used_slots; // Canít allocate less than we are using.
 		}
 		company* tmp = new company[new_capacity];
-		delete[] company_array;
 		std::copy(company_array, company_array + used_slots, tmp);
+		delete[] company_array;
 		company_array = tmp;
+		aloc_slots = new_capacity;
 		return;
     }
     

@@ -1,4 +1,5 @@
 // FILE: database.cpp
+// Vasilis Odysseos and Jackson Tseng
 // CLASS implemented: database (see database.h for documentation)
 
 // INVARIANT for the database ADT:

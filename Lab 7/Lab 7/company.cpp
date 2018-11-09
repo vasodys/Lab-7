@@ -1,4 +1,5 @@
 // FILE: company.cpp
+// Vasilis Odysseos and Jackson Tseng
 // CLASS implemented: company (see company.h for documentation)
 
 

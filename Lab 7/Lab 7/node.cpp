@@ -1,4 +1,4 @@
-
+// Vasilis Odysseos and Jackson Tseng
 #ifndef ITEM_CPP
 #define ITEM_CPP
 

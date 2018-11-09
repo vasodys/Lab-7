@@ -5,6 +5,7 @@
 //
 //  Created by Behnam Dezfouli
 //
+// Vasilis Odysseos and Jackson Tseng
 
 #include "database.h"
 
